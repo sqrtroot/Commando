@@ -1,0 +1,12 @@
+[submodule "external/string-view-lite"]
+	path = external/string-view-lite
+	url = https://github.com/martinmoene/string-view-lite.git
+[submodule "external/span-lite"]
+	path = external/span-lite
+	url = https://github.com/martinmoene/span-lite
+[submodule "external/optional-lite"]
+	path = external/optional-lite
+	url = https://github.com/martinmoene/optional-lite.git
+[submodule "external/Catch2"]
+	path = external/Catch2
+	url = https://github.com/catchorg/Catch2
