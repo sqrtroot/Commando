@@ -49,9 +49,9 @@ The command handler is the part that receives the input, splits it into argument
 ```c++
 #include <Commando/CommandHandler.hpp>
 
-EchoCommand        ECHO;
-HellowWorldCommand HELLOWORLD;
-auto               HANDLER = Commando::make_commandhandler(&ECHO, &HELLOWORLD);
+EchoCommand       ECHO;
+HelloWorldCommand HELLOWORLD;
+auto              HANDLER = Commando::make_commandhandler(&ECHO, &HELLOWORLD);
 ```
  now if we want to call a command we simply call the handler's `handle_input` function like this:
  ```c++
