@@ -1,4 +1,5 @@
 #include <Commando/Commando.h>
+#include <TestCommand.h>
 #include <catch2/catch.hpp>
 
 SCENARIO("Argument string should be parsed into seperate arguments") {
@@ -43,23 +44,8 @@ SCENARIO("Argument string should be parsed into seperate arguments") {
 
 SCENARIO("Commands should be executed") {
   GIVEN("A commando and a command handler") {
-    struct TestCommand : public Commando::Command {
-      bool        executed = false;
-      std::string arg1;
-      std::string arg2;
-      TestCommand(): Commando::Command("test", ""){};
-      Commando::CommandStatus operator()(const Commando::ArgSpan &args) {
-        executed = true;
-        if(args.empty()) {
-          return Commando::CommandStatus::NotEnoughArguments;
-        }
-        arg1 = args[0].to_string();
-        arg2 = args[1].to_string();
-        return Commando::CommandStatus::Ok;
-      }
-    };
-    TestCommand                 t1;
-    Commando::CommandHandler<1> ch({&t1});
+    auto t1 = TestCommand();
+    auto ch = Commando::make_commandhandler(&t1);
     WHEN("The handle input function is called with the name of the command") {
       ch.handle_input("test");
       THEN("The command should be executed") { REQUIRE(t1.executed); }
