@@ -42,6 +42,27 @@ struct Echo : public Command {
  }
  ```
  ### Why use string views.
- As we could see in the above example there is one downside to using string views. If you use functions that can't accept these but uses `const char *`'s you have to convert them. So why not use `const char *`'s. A long explenation can be found on my blog [#add link](). But a long story short, this is the fastest, non intrusive option. The downside is that when we have to use a null terminated function we have to copy and allocate some memory (by making it a string with `to_str()`), after this the underlying null terminated string can be accessed by using `.c_str()`.
+ As we could see in the above example there is one downside to using string views. If you use functions that can't accept these but uses `const char *`'s you have to convert them. So why not use `const char *`'s to begin with? To use those, we have to add null pointers to all the arguments. This would mean either editing the original buffer, or copying the whole buffer. String views bypass this. But the downside is that when we need to use a null terminated strings for a function we have to copy and allocate some memory (by making it a string with `to_str()`), after this the underlying null terminated string can be accessed by using `.c_str()`.
+
+## Command Handler
+The command handler is the part that receives the input, splits it into arguments and calls the correct command. Creating a handler is really easy in this example we'll use the previously created `HelloWorld` and `Echo` commands.
+```c++
+#include <Commando/CommandHandler.hpp>
+
+EchoCommand        ECHO;
+HellowWorldCommand HELLOWORLD;
+auto               HANDLER = Commando::make_commandhandler(&ECHO, &HELLOWORLD);
+```
+ now if we want to call a command we simply call the handler's `handle_input` function like this:
+ ```c++
+ HANDLER.handle_input("echo hello world");
+ ```
+
+# Todo
+- [ ] Add a shell for arduino
+- [ ] Test default arduino commando's
+- [ ] Make library build for esp
+- [ ] Add wifi commando's
+
 
 <small>Logo by <a href=https://www.lotts-studio.nl/>lotts studio</a>
