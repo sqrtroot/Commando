@@ -26,8 +26,9 @@ struct PinMode : public Command {
 
               "pinMode [pinNumber] [mode]",
 
-              "Set the mode of a pin"
-              "mode can be one of INPUT, INPUT_PULLUP, OUTPUT") {}
+              "Set the mode of a pin\n"
+              "mode can be one of INPUT, INPUT_PULLUP, OUTPUT\n"
+              "For analog pins use the actual pin number as seen in the diagram") {}
 
   nonstd::optional<uint32_t> to_pinmode(const nonstd::string_view view) {
     if(view == "INPUT") return INPUT;
@@ -56,7 +57,8 @@ struct AnalogRead : public Command {
   AnalogRead(Stream &stream):
       Command("analogRead",
               "analogRead [pin]",
-              "read an analog pin and write value to stream"),
+              "read an analog pin and write value to stream\n"
+              "For analog pins use the actual pin number as seen in the diagram"),
       stream(stream){};
 
   CommandStatus operator()(const ArgSpan &argSpan) {
@@ -76,7 +78,8 @@ struct DigitalRead : public Command {
   DigitalRead(Stream &stream):
       Command("digitalRead",
               "digitalRead [pin]",
-              "read the value of a pin and write value to stream"),
+              "read the value of a pin and write value to stream\n"
+              "For analog pins use the actual pin number as seen in the diagram"),
       stream(stream){};
 
   CommandStatus operator()(const ArgSpan &argSpan) {
@@ -94,7 +97,8 @@ struct DigitalWrite : public Command {
   DigitalWrite():
       Command("digitalWrite",
               "digitalWrite [pin] [value]",
-              "write a value to a digital pin, value can be HIGH, LOW, 0 or 1"){};
+              "write a value to a digital pin, value can be HIGH, LOW, 0 or 1\n"
+              "For analog pins use the actual pin number as seen in the diagram"){};
 
   nonstd::optional<int> to_value(nonstd::string_view view) {
     if(view == "HIGH") return HIGH;
@@ -121,13 +125,14 @@ struct AnalogWrite : public Command {
   AnalogWrite():
       Command("analogWrite",
               "analogWrite [pin] [value]",
-              "Write a value to a adc pin, or use pwm.\nValue can be HIGH, LOW, 0 "
-              "or 1"){};
+              "Write a value to a adc pin, or use pwm.\nValue can be HIGH, LOW, or "
+              "value between 0 and 255 \n"
+              "For analog pins use the actual pin number as seen in the diagram"){};
 
-  nonstd::optional<int> to_value(nonstd::string_view view) {
-    if(view == "HIGH") return HIGH;
-    if(view == "LOW") return LOW;
-    return Util::to_number<int>(view);
+  nonstd::optional<uint8_t> to_value(nonstd::string_view view) {
+    if(view == "HIGH") return 255;
+    if(view == "LOW") return 0;
+    return Util::to_number<uint8_t>(view);
   }
 
   CommandStatus operator()(const ArgSpan &argSpan) {
@@ -148,7 +153,8 @@ struct Echo : public Command {
 
   CommandStatus operator()(const ArgSpan &argSpan) {
     for(const auto &value: argSpan) {
-      Serial.println(value.to_string().c_str());
+      Serial.write(value.cbegin(), value.size());
+      Serial.print(" ");
     }
     return CommandStatus::Ok;
   }
