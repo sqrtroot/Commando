@@ -36,6 +36,7 @@ jobs:
       uses: actions/download-artifact@v1
       with:
         name: test_build
+        path: ./build
     - name:  gen_coverage
       run: make coverage_summary
       working-directory: ./build
