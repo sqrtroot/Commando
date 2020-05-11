@@ -28,8 +28,10 @@ jobs:
     - name: generate coverage report
       run: cmake --build . -j $(nproc) --target coverage_html
       working-directory: ./build
-    - name: Upload coverage results
-      uses: actions/upload-artifact@v1
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v1
       with:
-        name: coverage_report
-        path: ./build/coverage_html
+        token: ${{ secrets.CODECOV }}
+        file: ./coverage.info
+        name: codecoverage
+        fail_ci_if_error: true
