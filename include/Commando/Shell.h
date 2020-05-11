@@ -11,6 +11,7 @@
 namespace Commando {
 struct Shell {
   const char *                             leader = "> ";
+  const char * remove_char = "\b \b";
   std::string                              buffer;
   CommandHandlerBase &                     commands;
   const std::function<bool()>&                    character_ready;
@@ -40,8 +41,12 @@ struct Shell {
     const char in = get_char();
     if(in == '\n') {
       exec();
+    }else if(in == '\b' /*backslash*/){
+      buffer.pop_back();
+      write_str(remove_char);
     }else{
       buffer.push_back(in);
+      write_str(nonstd::string_view(&in, 1));
     }
   }
 };
