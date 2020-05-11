@@ -24,7 +24,7 @@ jobs:
       run: ./tests
       working-directory: ./build
     - name: install lcov
-      run: sudo apt install -y lcov
+      run: ".github/workflows/install_latest_lcov.sh"
     - name: generate coverage report
       run: cmake --build . -j $(nproc) --target coverage_html
       working-directory: ./build
