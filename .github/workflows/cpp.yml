@@ -40,8 +40,8 @@ jobs:
       with:
         name: test_build
         path: ./build
-    - name: ls
-      run: ls -la
+    - name: install lcov
+      run: sudo apt install -y lcov
     - name:  gen_coverage
       run: make coverage_html
       working-directory: ./build
