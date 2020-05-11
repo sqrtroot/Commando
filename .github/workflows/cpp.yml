@@ -1,0 +1,37 @@
+name: C/C++ CI
+on:
+  push:
+    branches: [ master, CI ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+      with:
+        submodules: 'true'
+    - name: create_builddir
+      run: mkdir -p build
+    - name: cmake
+      run: cmake .. -DCOVERAGE=YES
+      working-directory: ./build
+    - name: build
+      run: cmake --build . -j $(nproc) --target tests
+      working-directory: ./build
+    - name: tests
+      run: ./tests
+      working-directory: ./build
+    - name: install lcov
+      run: ".github/workflows/install_latest_lcov.sh"
+    - name: generate coverage report
+      run: cmake --build . -j $(nproc) --target coverage_html
+      working-directory: ./build
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v1
+      with:
+        token: ${{ secrets.CODECOV }}
+        file: ./build/coverage.info
+        name: codecoverage
+        fail_ci_if_error: true
