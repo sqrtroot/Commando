@@ -1,0 +1,46 @@
+name: C/C++ CI
+on:
+  push:
+    branches: [ master, CI ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+      with:
+        submodules: 'true'
+    - name: create_builddir
+      run: mkdir -p build
+    - name: cmake
+      run: cmake .. -DCOVERAGE=YES
+      working-directory: ./build
+    - name: build
+      run: cmake --build . -j $(nproc) --target tests
+      working-directory: ./build
+    - name: tests
+      run: ./tests
+      working-directory: ./build
+    - name: Upload test_build/coverage results
+      uses: actions/upload-artifact@v1
+      with:
+        name: test_build
+        path: ./build
+  coverage:
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+    - name: Download results from job1
+      uses: actions/download-artifact@v1
+      with:
+        name: test_build
+    - name:  gen_coverage
+      run: make coverage_summary
+      working-directory: ./build
+    - name: Archive code coverage results
+      uses: actions/upload-artifact@v1
+      with:
+        name: code-coverage-report
+        path: ./build/coverage_html
