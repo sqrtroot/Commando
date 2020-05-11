@@ -32,7 +32,10 @@ jobs:
     runs-on: ubuntu-latest
     needs: test
     steps:
-    - name: Download results from job1
+    - uses: actions/checkout@master
+      with:
+        submodules: 'true'
+    - name: Download results from test job
       uses: actions/download-artifact@v1
       with:
         name: test_build
