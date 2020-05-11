@@ -23,6 +23,8 @@ jobs:
     - name: tests
       run: ./tests
       working-directory: ./build
+    - name: install lcov
+      run: sudo apt install -y lcov
     - name: generate coverage report
       run: cmake --build . -j $(nproc) --target coverage_html
       working-directory: ./build
