@@ -3,6 +3,13 @@ project(CommandLib)
 
 set(CMAKE_CXX_STANDARD 11)
 
+option(COVERAGE "build with coverage enabled" NO)
+if(COVERAGE)
+  set(CMAKE_BUILD_TYPE Debug)
+  set(CMAKE_CXX_FLAGS "-g -O0 -fprofile-arcs -ftest-coverage")
+  set(CMAKE_CXX_OUTPUT_EXTENSION_REPLACE 1)
+endif()
+
 add_library(Commando
         include/Commando/ArgSpan.h
         include/Commando/Command.h
