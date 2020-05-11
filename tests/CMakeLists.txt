@@ -11,7 +11,7 @@ if(COVERAGE)
   add_custom_command(OUTPUT coverage.info
     COMMAND lcov --directory ${CMAKE_BINARY_DIR} --zerocounters
     COMMAND ${CMAKE_BINARY_DIR}/tests
-    COMMAND lcov -c --directory ${CMAKE_BINARY_DIR} -o coverage.info --include '*Commando*' --exclude '*external*' --exclude '*test*'
+    COMMAND lcov -c --directory ${CMAKE_BINARY_DIR} -o coverage.info --include '*Commando*' --exclude '*external*' --exclude '*test*' --exclude "*nonstd*"
     DEPENDS tests)
 
   add_custom_target(coverage_summary
