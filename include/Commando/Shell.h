@@ -17,15 +17,18 @@ struct Shell {
   const std::function<bool()>                    character_ready;
   const std::function<char()>                    get_char;
   const std::function<void(nonstd::string_view)> write_str;
+  const bool echo_input;
 
   Shell(CommandHandlerBase &               commands,
         std::function<bool()>                    character_ready,
         std::function<char()>                    get_character,
-        std::function<void(nonstd::string_view)> write_str):
+        std::function<void(nonstd::string_view)> write_str,
+        const bool echo_input = true):
       commands(commands),
       character_ready(std::move(character_ready)),
       get_char(std::move(get_character)),
-      write_str(std::move(write_str)) {}
+      write_str(std::move(write_str)),
+      echo_input(echo_input) {}
 
   void exec() {
     commands.handle_input(buffer);
@@ -46,7 +49,7 @@ struct Shell {
       write_str(remove_char);
     }else{
       buffer.push_back(in);
-      write_str(nonstd::string_view(&in, 1));
+      if(echo_input) write_str(nonstd::string_view(&in, 1));
     }
   }
 };
