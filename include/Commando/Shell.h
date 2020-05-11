@@ -13,18 +13,18 @@ struct Shell {
   const char *                             leader = "> ";
   std::string                              buffer;
   CommandHandlerBase &                     commands;
-  const std::function<bool()>                    character_ready;
-  const std::function<char()>                    get_char;
-  const std::function<void(nonstd::string_view)> write_str;
+  const std::function<bool()>&                    character_ready;
+  const std::function<char()>&                  get_char;
+  const std::function<void(nonstd::string_view)>& write_str;
 
   Shell(CommandHandlerBase &               commands,
-        std::function<bool()>                    character_ready,
-        std::function<char()>                    get_character,
-        std::function<void(nonstd::string_view)> write_str):
+        const std::function<bool()>&                    character_ready,
+        const std::function<char()> &                   get_character,
+        const std::function<void(nonstd::string_view)>& write_str):
       commands(commands),
-      character_ready(std::move(character_ready)),
-      get_char(std::move(get_character)),
-      write_str(std::move(write_str)) {}
+      character_ready(character_ready),
+      get_char(get_character),
+      write_str(write_str) {}
 
   void exec() {
     commands.handle_input(buffer);
