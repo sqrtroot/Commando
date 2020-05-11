@@ -37,7 +37,7 @@ jobs:
       with:
         name: test_build
     - name:  gen_coverage
-      run: make coverage_summary
+      run: make coverage_html
     - name: Archive code coverage results
       uses: actions/upload-artifact@v1
       with:
