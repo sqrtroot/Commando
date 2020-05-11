@@ -31,5 +31,5 @@ jobs:
     - name: Upload coverage results
       uses: actions/upload-artifact@v1
       with:
-        name: test_build
+        name: coverage_report
         path: ./build/coverage_html
