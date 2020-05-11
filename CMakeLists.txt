@@ -22,6 +22,7 @@ add_library(Commando
 target_include_directories(Commando PUBLIC include)
 target_include_directories(Commando PUBLIC external/span-lite/include)
 target_include_directories(Commando PUBLIC external/string-view-lite/include)
+target_include_directories(Commando PUBLIC external/optional-lite/include)
 
 include(tests/CMakeLists.txt)
 
