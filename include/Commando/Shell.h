@@ -5,25 +5,27 @@
 #include "Commando/CommandHandler.h"
 #include <functional>
 #include <nonstd/string_view.hpp>
-#include <utility>
 #include <string>
+#include <utility>
 
 namespace Commando {
 struct Shell {
-  const char *                             leader = "> ";
-  const char * remove_char = "\b \b";
-  std::string                              buffer;
-  CommandHandlerBase &                     commands;
+  const char *leader      = "> ";
+  const char *remove_char = "\b \b";
+
+  std::string         buffer;
+  CommandHandlerBase &commands;
+
   const std::function<bool()>                    character_ready;
   const std::function<char()>                    get_char;
   const std::function<void(nonstd::string_view)> write_str;
-  const bool echo_input;
+  const bool                                     echo_input;
 
-  Shell(CommandHandlerBase &               commands,
+  Shell(CommandHandlerBase &                     commands,
         std::function<bool()>                    character_ready,
         std::function<char()>                    get_character,
         std::function<void(nonstd::string_view)> write_str,
-        const bool echo_input = true):
+        const bool                               echo_input = true):
       commands(commands),
       character_ready(std::move(character_ready)),
       get_char(std::move(get_character)),
@@ -44,10 +46,10 @@ struct Shell {
     const char in = get_char();
     if(in == '\n') {
       exec();
-    }else if(in == '\b' /*backslash*/){
+    } else if(in == '\b' /*backslash*/) {
       buffer.pop_back();
       write_str(remove_char);
-    }else{
+    } else {
       buffer.push_back(in);
       if(echo_input) write_str(nonstd::string_view(&in, 1));
     }
