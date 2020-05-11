@@ -43,7 +43,7 @@ jobs:
     - name: install lcov
       run: sudo apt install -y lcov
     - name: make tests executable
-      run: chmod +x ./tests
+      run: chmod +xxx ./tests
     - name:  gen_coverage
       run: make coverage_html
       working-directory: ./build
