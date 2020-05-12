@@ -19,5 +19,6 @@
 #include "Command.h"
 #include "CommandHandler.h"
 #include "CommandStatus.h"
+#include "Shell.h"
 
 #endif    // COMMANDO_COMMANDO_H
