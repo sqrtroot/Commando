@@ -57,9 +57,47 @@ auto              HANDLER = Commando::make_commandhandler(&ECHO, &HELLOWORLD);
  ```c++
  HANDLER.handle_input("echo hello world");
  ```
+## Shell
+The shell class is the easiest way to use commando's.
+You give it three function's: a way to check if there's a character to read, a way to read characters and a way to write string_views.
+In this example I'll show how to write this yourself.
+But for Arduino there is already a standard shell defined that you can use as such (with the handler from the previous example):
+```c++
+#include <Commando/StandardShell/Arduino.hpp>
+
+ArduinoShell SHELL(HANDLER);
+
+void loop(){
+  SHELL.step();
+}
+```
+### How to write it yourself
+So as said before you need to provide three functions. These functions can be written as lambdas.
+Let's look at a shell that uses ```std::cin``` to read characters
+```c++
+#include <Commando/Commando.h>
+#include <iostream>
+
+int main() {
+  auto handler = Commando::make_commandhandler();
+  std::cin.sync_with_stdio(false);//make sure rdbuf in avail works
+  Commando::Shell shell(
+    handler,
+    []() { return std::cin.rdbuf()->in_avail() > 0; },
+    []() { return std::cin.get(); },
+    [](nonstd::string_view sv) {std::cout << sv;},
+    Commando::Shell::NoEcho);
+}
+```
+Our first lambda checks if the cin buffer holds at leas one character. There is line before creating the shell `std::cin.sync_with_stdio(false);`. This makes sure we can check if there's a character available with standard c++ functions.
+The second lambda just returns a character from the cin string.
+The third lambda prints the string view we recieve to the standard output.
+And there we have it. The 3 functions to write to make a complete shell.
+
+As a small aside. There is a fourth optional parameter, which indicates if you need to write the incomming character to the stream. This is mostly usefull for streams that don't have local echo enabled, like some serial monitors. For our iostream based shell this is not needed so we pass an extra argument, indicating this.
 
 # Todo
-- [ ] Add a shell for arduino
+- [x] Add a shell for arduino
 - [ ] Test default arduino commando's
 - [ ] Make library build for esp
 - [ ] Add wifi commando's
