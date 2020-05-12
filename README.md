@@ -1,6 +1,9 @@
 <h1><img src="./Commando.svg" width=10% /> Commando </h1>
 With commando it is super simple to create commands (small programs) and a shell for all devices.
 
+![C/C++ CI](https://github.com/sqrtroot/Commando/workflows/C/C++%20CI/badge.svg)
+[![codecov](https://codecov.io/gh/sqrtroot/Commando/branch/master/graph/badge.svg)](https://codecov.io/gh/sqrtroot/Commando)
+
 # How it works
 With commando you create commands by making them a subclass of `Commando::Command` and implementing the `operator()` then passing these classes to the CommandHandler which handles calling the correct command and parsing arguments.
 
