@@ -10,6 +10,8 @@
 
 namespace Commando {
 struct Shell {
+  static constexpr bool NO_ECHO = false;
+
   const char *leader      = "> ";
   const char *remove_char = "\b \b";
 
@@ -19,7 +21,8 @@ struct Shell {
   const std::function<bool()>                    character_ready;
   const std::function<char()>                    get_char;
   const std::function<void(nonstd::string_view)> write_str;
-  const bool                                     echo_input;
+
+  const bool echo_input;
 
   Shell(CommandHandlerBase &                     commands,
         std::function<bool()>                    character_ready,
@@ -51,7 +54,7 @@ struct Shell {
       write_str(remove_char);
     } else {
       buffer.push_back(in);
-      if(echo_input) write_str(nonstd::string_view(&in, 1));
+      if(echo_input != NO_ECHO) write_str(nonstd::string_view(&in, 1));
     }
   }
 };

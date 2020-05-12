@@ -31,6 +31,20 @@ SCENARIO("A shell should read input") {
         THEN("Char read should be called") { REQUIRE(char_read_called); }
         AND_THEN("The output should be printed") { REQUIRE(last_output == "-"); }
       }
+      AND_WHEN("Echo character is disabled no character should be echoed") {
+        auto shell2 = Commando::Shell(
+          ch,
+          [&]() { return char_ready; },
+          [&]() {
+            char_read_called = true;
+            return '-';
+          },
+          [&](nonstd::string_view out) { last_output = out.to_string(); },
+          Commando::Shell::NO_ECHO);
+        char_ready = true;
+        shell2.step();
+        THEN("The output should NOT be printed") { REQUIRE(last_output.empty()); }
+      }
     }
   }
 }
