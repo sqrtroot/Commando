@@ -1,5 +1,7 @@
 .idea
 .clangd
+build
+.vscode
 
 # Created by https://www.gitignore.io/api/c++,cmake,clion,platformio
 # Edit at https://www.gitignore.io/?templates=c++,cmake,clion,platformio
