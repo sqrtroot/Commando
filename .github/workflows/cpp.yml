@@ -42,15 +42,15 @@ jobs:
       with:
         submodules: 'true'
     - name: install clang-tidy
-      run: sudo apt install -y clang-tidy-9 && ln -s $(which clang-tidy-9) /usr/local/sbin/clang-tidy
+      run: sudo apt install -y clang-tidy-9 clang-format-9 && ln -s $(which clang-tidy-9) /usr/local/sbin/clang-tidy && ln -s $(which clang-format-9) /usr/local/sbin/clang-format
     - name: install include-what-you-use
       run: ./.github/workflows/install_include-what-you-use.sh
     - name: generate compile_commands
       run: cmake . -DCMAKE_EXPORT_COMPILE_COMMANDS=YES
-    - name: ls
-      run: ls
     - name: clang-tidy
       run: ./tools/clang-tidy.sh
+    - name: clang-format
+      run: ./tools/clang-format.sh
     - name: include-what-you-use
       run: ./tools/iwyu.sh
 
