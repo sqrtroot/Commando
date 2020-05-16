@@ -22,11 +22,8 @@
 #include <algorithm>
 #include <array>
 #include <cstddef>
-#include <cstdint>
-#include <initializer_list>
-#include <memory>
 #include <nonstd/string_view.hpp>
-#include <numeric>
+#include <type_traits>
 #include <vector>
 
 namespace Commando {

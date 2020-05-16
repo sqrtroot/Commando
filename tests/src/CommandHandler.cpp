@@ -1,6 +1,9 @@
+#include "TestCommand.h"
 #include <Commando/Commando.h>
-#include <TestCommand.h>
 #include <catch2/catch.hpp>
+#include <nonstd/string_view.hpp>
+#include <string>
+#include <vector>
 
 SCENARIO("Argument string should be parsed into seperate arguments") {
   GIVEN("A simple argument") {

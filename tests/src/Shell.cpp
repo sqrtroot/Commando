@@ -1,6 +1,9 @@
+#include "TestCommand.h"
 #include <Commando/Commando.h>
-#include <TestCommand.h>
 #include <catch2/catch.hpp>
+#include <functional>
+#include <nonstd/string_view.hpp>
+#include <string>
 
 SCENARIO("A shell should read input") {
   auto        char_ready       = false;

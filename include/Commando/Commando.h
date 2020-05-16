@@ -14,11 +14,12 @@
 **/
 #ifndef COMMANDO_COMMANDO_H
 #define COMMANDO_COMMANDO_H
-
-#include "ArgSpan.h"
-#include "Command.h"
-#include "CommandHandler.h"
-#include "CommandStatus.h"
-#include "Shell.h"
+// IWYU pragma: begin_exports
+#include "Commando/ArgSpan.h"
+#include "Commando/Command.h"
+#include "Commando/CommandHandler.h"
+#include "Commando/CommandStatus.h"
+#include "Commando/Shell.h"
+// IWYU pragma: end_exports
 
 #endif    // COMMANDO_COMMANDO_H

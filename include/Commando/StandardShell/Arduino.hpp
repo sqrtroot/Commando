@@ -1,7 +1,5 @@
 #include <Arduino.h>
-#include <Commando/CommandHandler.h>
-#include <Commando/Shell.h>
-#include <iostream>
+#include <Commando/Commando.h>
 
 using namespace Commando;
 struct ArduinoShell : public Shell {
