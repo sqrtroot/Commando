@@ -20,8 +20,9 @@ for i in $(find src -type f); do
   fi
 done
 
-for i in $(find tests/include -type f); do
-  if ! do_tidy $i $@; then
+for i in $(find tests -type f -name "*.h" -or -name "*.cpp"); do
+  if ! do_tidy $i --checks="-readability-function-size,-cppcoreguidelines-macro-usage" $@; then
+    # need to a few checks because of catch macro expansions
     ret_val=1
   fi
 done
