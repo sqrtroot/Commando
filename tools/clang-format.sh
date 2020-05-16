@@ -4,7 +4,11 @@ function do_format (){
   echo ====================================
   echo "=$i"
   echo ====================================
-  clang-format -n -Werror $@
+  if  echo "$@" | grep -e "-i"; then #we want to inplace fix not dry-run
+    clang-format $@
+  else
+    clang-format -n -Werror $@
+  fi
   return $?
 }
 
