@@ -1,3 +1,6 @@
+#ifndef COMMANDO_UTILS_TONUMBER_HPP
+#define COMMANDO_UTILS_TONUMBER_HPP
+
 /** Copyright 2020 Robert "sqrtroot" Bezem
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -42,7 +45,7 @@ namespace Util {
       static nonstd::optional<T> convert(nonstd::string_view input) {
         const auto str  = input.to_string();
         char *     outp = nullptr;
-        const T    out  = std::strtoull(str.c_str(), &outp, 10);
+        const T    out  = std::strtoull(str.c_str(), &outp, /*__base=*/10);
         if(outp == str.c_str()) {
           return nonstd::nullopt;
         }
@@ -54,7 +57,7 @@ namespace Util {
       static nonstd::optional<T> convert(nonstd::string_view input) {
         const auto str  = input.to_string();
         char *     outp = nullptr;
-        T          out  = std::strtoll(str.c_str(), &outp, 10);
+        T          out  = std::strtoll(str.c_str(), &outp, /*__base=*/10);
         if(outp == str.c_str()) {
           return nonstd::nullopt;
         }
@@ -68,3 +71,5 @@ namespace Util {
   }
 }    // namespace Util
 }    // namespace Commando
+
+#endif

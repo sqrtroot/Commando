@@ -1,6 +1,9 @@
 #include "Commando/CommandHandler.h"
 #include <algorithm>
 #include <cctype>
+#include <iterator>
+#include <nonstd/string_view.hpp>
+#include <vector>
 
 constexpr auto QUOTED_NEXT_OFFSET = 2;
 

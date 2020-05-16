@@ -1,8 +1,8 @@
 #include <Commando/Utils/ToNumber.hpp>
 #include <catch2/catch.hpp>
 #include <limits>
+#include <nonstd/optional.hpp>
 #include <sstream>
-#include <string>
 
 #define GIVEN_NUM_TYPE(T, value_comparison)                                             \
   GIVEN("type " #T) {                                                                   \

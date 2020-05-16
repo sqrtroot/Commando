@@ -1,6 +1,9 @@
+#include "TestCommand.h"
 #include <Commando/Commando.h>
-#include <TestCommand.h>
 #include <catch2/catch.hpp>
+#include <functional>
+#include <nonstd/string_view.hpp>
+#include <string>
 
 SCENARIO("A shell should read input") {
   auto        char_ready       = false;
@@ -10,7 +13,7 @@ SCENARIO("A shell should read input") {
   auto        t1    = TestCommand();
   auto        ch    = Commando::make_commandhandler(&t1);
   auto        shell = Commando::Shell(
-    ch,
+    &ch,
     [&]() { return char_ready; },
     [&]() {
       char_read_called = true;
@@ -36,7 +39,7 @@ SCENARIO("A shell should read input") {
       }
       AND_WHEN("Echo character is disabled no character should be echoed") {
         auto shell2 = Commando::Shell(
-          ch,
+          &ch,
           [&]() { return char_ready; },
           [&]() {
             char_read_called = true;
@@ -50,21 +53,19 @@ SCENARIO("A shell should read input") {
       }
     }
   }
-  WHEN("A character is added to the buffer"){
+  WHEN("A character is added to the buffer") {
     return_char = 'a';
-    char_ready = true;
+    char_ready  = true;
     shell.step();
-    THEN("The buffer should contain this character"){
-      REQUIRE(shell.buffer == std::string(1,return_char));
+    THEN("The buffer should contain this character") {
+      REQUIRE(shell.buffer == std::string(1, return_char));
     }
-    AND_WHEN("A backspace is called"){
+    AND_WHEN("A backspace is called") {
       return_char = '\b';
-      char_ready = true;
+      char_ready  = true;
       shell.step();
-      THEN("The character should be removed"){
-        REQUIRE(shell.buffer.empty());
-      }
-      AND_THEN("The string to remove a letter should be printed"){
+      THEN("The character should be removed") { REQUIRE(shell.buffer.empty()); }
+      AND_THEN("The string to remove a letter should be printed") {
         REQUIRE(last_output == shell.remove_char);
       }
     }
@@ -77,11 +78,11 @@ SCENARIO("A shell should execute commands") {
   auto        t1    = TestCommand();
   auto        ch    = Commando::make_commandhandler(&t1);
   auto        shell = Commando::Shell(
-    ch,
+    &ch,
     [&]() { return !input_string.empty(); },
     [&]() {
       auto letter = input_string.front();
-      input_string.erase(0, 1);
+      input_string.erase(/*__pos=*/0, /*__n=*/1);
       return letter;
     },
     [&](nonstd::string_view out) { last_output = out.to_string(); });
