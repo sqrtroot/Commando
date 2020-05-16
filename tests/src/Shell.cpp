@@ -50,21 +50,19 @@ SCENARIO("A shell should read input") {
       }
     }
   }
-  WHEN("A character is added to the buffer"){
+  WHEN("A character is added to the buffer") {
     return_char = 'a';
-    char_ready = true;
+    char_ready  = true;
     shell.step();
-    THEN("The buffer should contain this character"){
-      REQUIRE(shell.buffer == std::string(1,return_char));
+    THEN("The buffer should contain this character") {
+      REQUIRE(shell.buffer == std::string(1, return_char));
     }
-    AND_WHEN("A backspace is called"){
+    AND_WHEN("A backspace is called") {
       return_char = '\b';
-      char_ready = true;
+      char_ready  = true;
       shell.step();
-      THEN("The character should be removed"){
-        REQUIRE(shell.buffer.empty());
-      }
-      AND_THEN("The string to remove a letter should be printed"){
+      THEN("The character should be removed") { REQUIRE(shell.buffer.empty()); }
+      AND_THEN("The string to remove a letter should be printed") {
         REQUIRE(last_output == shell.remove_char);
       }
     }

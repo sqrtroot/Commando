@@ -6,7 +6,7 @@ struct TestCommand : public Commando::Command {
   bool        executed = false;
   std::string arg1;
   std::string arg2;
-  TestCommand(): Commando::Command("test", "") {};
+  TestCommand(): Commando::Command("test", ""){};
   Commando::CommandStatus operator()(const Commando::ArgSpan &args) override {
     executed = true;
     if(args.empty()) {

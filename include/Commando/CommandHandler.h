@@ -63,10 +63,9 @@ public:
     });
   };
 };
-template<typename ...T>
-CommandHandler<sizeof...(T)> make_commandhandler(T... commandos){
+template<typename... T>
+CommandHandler<sizeof...(T)> make_commandhandler(T... commandos) {
   return CommandHandler<sizeof...(T)>({commandos...});
-
 }
 }    // namespace Commando
 #endif
