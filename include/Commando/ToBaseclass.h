@@ -1,5 +1,5 @@
-#ifndef COMMANDO_TOBASECLASS_HPP
-#define COMMANDO_TOBASECLASS_HPP
+#ifndef COMMANDO_TOBASECLASS_H
+#define COMMANDO_TOBASECLASS_H
 #include <array>
 #include <cstddef>
 namespace Impl {
@@ -16,20 +16,21 @@ struct ToBaseclass {
 template<typename R, size_t S>
 struct ToBaseclass<R, S, 0> {
   template<typename... T>
-  constexpr std::array<R, S> operator()(const std::tuple<T...> &, std::array<R, S> &&arr) const {
+  constexpr std::array<R, S>
+    operator()(const std::tuple<T...> & /*unused*/, std::array<R, S> &&arr) const {
     return arr;
   }
 };
 }    // namespace Impl
 
 template<typename Base, typename... T>
-constexpr std::array<const Base *, sizeof...(T)> toBaseclass(const std::tuple<T...> &t) {
+constexpr std::array<const Base *, sizeof...(T)> to_baseclass(const std::tuple<T...> &t) {
   return Impl::ToBaseclass<const Base *, sizeof...(T), sizeof...(T)>()(
     t, std::array<const Base *, sizeof...(T)>());
 }
 
 template<typename Base, typename... T>
-constexpr std::array<Base *, sizeof...(T)> toBaseclass(std::tuple<T...> &t) {
+constexpr std::array<Base *, sizeof...(T)> to_baseclass(std::tuple<T...> &t) {
   return Impl::ToBaseclass<Base *, sizeof...(T), sizeof...(T)>()(
     t, std::array<Base *, sizeof...(T)>());
 }

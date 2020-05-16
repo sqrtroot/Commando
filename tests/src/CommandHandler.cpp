@@ -17,7 +17,7 @@ SCENARIO("Argument string should be parsed into seperate arguments") {
     }
   }
   GIVEN("A double quoted argument") {
-    auto input = "\"Hello world\"";
+    auto input = R"("Hello world")";
     WHEN("It's parsed") {
       auto parsed = Commando::CommandHandlerBase::parse_arguments(input);
       THEN("It should have the correct number of arguments") {

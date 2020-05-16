@@ -15,46 +15,48 @@ struct Shell {
   const char *leader      = "> ";
   const char *remove_char = "\b \b";
 
-  std::string         buffer;
-  CommandHandlerBase &commands;
+  std::string               buffer;
+  CommandHandlerBase *const commands;
 
-  const std::function<bool()>                    character_ready;
-  const std::function<char()>                    get_char;
-  const std::function<void(nonstd::string_view)> write_str;
+  const std::function<bool()>                    characterReady;
+  const std::function<char()>                    getChar;
+  const std::function<void(nonstd::string_view)> writeStr;
 
-  const bool echo_input;
+  const bool echoInput;
 
-  Shell(CommandHandlerBase &                     commands,
+  Shell(CommandHandlerBase *const                commands,
         std::function<bool()>                    character_ready,
         std::function<char()>                    get_character,
         std::function<void(nonstd::string_view)> write_str,
-        const bool                               echo_input = true):
+        const bool                               echoInput = true):
       commands(commands),
-      character_ready(std::move(character_ready)),
-      get_char(std::move(get_character)),
-      write_str(std::move(write_str)),
-      echo_input(echo_input) {}
+      characterReady(std::move(character_ready)),
+      getChar(std::move(get_character)),
+      writeStr(std::move(write_str)),
+      echoInput(echoInput) {}
 
   void exec() {
-    commands.handle_input(buffer);
+    commands->handle_input(buffer);
     buffer.clear();
-    write_str("\n");
-    write_str(leader);
+    writeStr("\n");
+    writeStr(leader);
   }
 
   void step() {
-    if(!character_ready()) {
+    if(!characterReady()) {
       return;
     }
-    const char in = get_char();
+    const char in = getChar();
     if(in == '\n') {
       exec();
     } else if(in == '\b' /*backslash*/) {
       buffer.pop_back();
-      write_str(remove_char);
+      writeStr(remove_char);
     } else {
       buffer.push_back(in);
-      if(echo_input != NO_ECHO) write_str(nonstd::string_view(&in, 1));
+      if(echoInput != NO_ECHO) {
+        writeStr(nonstd::string_view(&in, /*count=*/1));
+      }
     }
   }
 };

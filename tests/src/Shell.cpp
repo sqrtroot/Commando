@@ -10,7 +10,7 @@ SCENARIO("A shell should read input") {
   auto        t1    = TestCommand();
   auto        ch    = Commando::make_commandhandler(&t1);
   auto        shell = Commando::Shell(
-    ch,
+    &ch,
     [&]() { return char_ready; },
     [&]() {
       char_read_called = true;
@@ -36,7 +36,7 @@ SCENARIO("A shell should read input") {
       }
       AND_WHEN("Echo character is disabled no character should be echoed") {
         auto shell2 = Commando::Shell(
-          ch,
+          &ch,
           [&]() { return char_ready; },
           [&]() {
             char_read_called = true;
@@ -75,11 +75,11 @@ SCENARIO("A shell should execute commands") {
   auto        t1    = TestCommand();
   auto        ch    = Commando::make_commandhandler(&t1);
   auto        shell = Commando::Shell(
-    ch,
+    &ch,
     [&]() { return !input_string.empty(); },
     [&]() {
       auto letter = input_string.front();
-      input_string.erase(0, 1);
+      input_string.erase(/*__pos=*/0, /*__n=*/1);
       return letter;
     },
     [&](nonstd::string_view out) { last_output = out.to_string(); });
