@@ -35,3 +35,22 @@ jobs:
         file: ./build/coverage.info
         name: codecoverage
         fail_ci_if_error: true
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+      with:
+        submodules: 'true'
+    - name: install clang-tidy
+      run: sudo apt install -y clang-tidy-9 && ln -s $(which clang-tidy-9) /usr/local/sbin/clang-tidy
+    - name: install include-what-you-use
+      run: ./.github/workflows/install_include-what-you-use.sh
+    - name: generate compile_commands
+      run: cmake . -DCMAKE_EXPORT_COMPILE_COMMANDS=YES
+    - name: ls
+      run: ls
+    - name: clang-tidy
+      run: ./tools/clang-tidy.sh
+    - name: include-what-you-use
+      run: ./tools/iwyu.sh
+
