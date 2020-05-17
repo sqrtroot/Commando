@@ -1,7 +1,7 @@
 set -e
 sudo apt install llvm-10-dev libclang-10-dev
-git clone https://github.com/include-what-you-use/include-what-you-use.git /iwyu
-cd /iwyu
+git clone https://github.com/include-what-you-use/include-what-you-use.git iwyu
+cd iwyu
 git checkout clang_10
 mkdir build
 cd build
