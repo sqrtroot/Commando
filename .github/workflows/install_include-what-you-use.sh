@@ -7,4 +7,4 @@ mkdir build
 cd build
 cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH=/usr/lib/llvm-10/lib/cmake/
 make -j "$(nproc)"
-make install
+sudo make install
