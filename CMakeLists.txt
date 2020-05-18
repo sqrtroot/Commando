@@ -3,13 +3,21 @@ project(CommandLib)
 
 set(CMAKE_CXX_STANDARD 11)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wpedantic -Werror")
+if(MSVC)
+	add_compile_options(/W4)
+else()
+	add_compile_options(-Wall -Wextra -Wpedantic -Werror)
+endif()
 
 option(COVERAGE "build with coverage enabled" NO)
 if(COVERAGE)
-  set(CMAKE_BUILD_TYPE Debug)
-  set(CMAKE_CXX_FLAGS "-g -O0 -fprofile-arcs -ftest-coverage")
-  set(CMAKE_CXX_OUTPUT_EXTENSION_REPLACE 1)
+  if(MSVC)
+    message(SEND_ERROR "MSVC doesnt support coverage flags")
+  else()
+    set(CMAKE_BUILD_TYPE Debug)
+    add_compile_options("-g -O0 -fprofile-arcs -ftest-coverage")
+    set(CMAKE_CXX_OUTPUT_EXTENSION_REPLACE 1)
+  endif()
 endif()
 
 
@@ -22,10 +30,10 @@ add_library(Commando
         include/Commando/Utils/ToNumber.hpp
         src/CommandHandler.cpp)
 
-target_include_directories(Commando PUBLIC include)
-target_include_directories(Commando PUBLIC external/span-lite/include)
-target_include_directories(Commando PUBLIC external/string-view-lite/include)
-target_include_directories(Commando PUBLIC external/optional-lite/include)
+target_include_directories(Commando PUBLIC "include")
+target_include_directories(Commando PUBLIC "external/span-lite/include")
+target_include_directories(Commando PUBLIC "external/string-view-lite/include")
+target_include_directories(Commando PUBLIC "external/optional-lite/include")
 
 include(tests/CMakeLists.txt)
 
