@@ -27,21 +27,21 @@ jobs:
     - name: tests
       run: ./tests
       working-directory: ./build
-      if: ${{ matrix.os == ubuntu-latest }}
+      if: ${{ matrix.os == "ubuntu-latest" }}
     - name: tests
       run: .\Debug\tests.exe
       working-directory: ./build
-      if: ${{ matrix.os == windows-latest }}
+      if: ${{ matrix.os == "windows-latest" }}
     - name: install lcov
       run: ".github/workflows/install_latest_lcov.sh"
-      if: ${{ matrix.os == ubuntu-latest }}
+      if: ${{ matrix.os == "ubuntu-latest" }}
     - name: generate coverage report
       run: cmake --build . -j $(nproc) --target coverage_html
       working-directory: ./build
-      if: ${{ matrix.os == ubuntu-latest }}
+      if: ${{ matrix.os == "ubuntu-latest" }}
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v1
-      if: ${{ matrix.os == ubuntu-latest }}
+      if: ${{ matrix.os == "ubuntu-latest" }}
       with:
         token: ${{ secrets.CODECOV }}
         file: ./build/coverage.info
