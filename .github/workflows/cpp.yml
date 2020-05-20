@@ -7,7 +7,9 @@ on:
 
 jobs:
   test:
-    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
     steps:
     - uses: actions/checkout@master
       with:
@@ -25,11 +27,14 @@ jobs:
       working-directory: ./build
     - name: install lcov
       run: ".github/workflows/install_latest_lcov.sh"
+      if: ${{ matrix.os == "ubuntu-latest" }}
     - name: generate coverage report
       run: cmake --build . -j $(nproc) --target coverage_html
       working-directory: ./build
+      if: ${{ matrix.os == "ubuntu-latest" }}
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v1
+      if: ${{ matrix.os == "ubuntu-latest" }}
       with:
         token: ${{ secrets.CODECOV }}
         file: ./build/coverage.info
