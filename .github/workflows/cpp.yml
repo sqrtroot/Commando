@@ -20,11 +20,16 @@ jobs:
       run: cmake .. -DCOVERAGE=YES
       working-directory: ./build
     - name: build
-      run: cmake --build . -j $(nproc) --target tests
+      run: cmake --build . --target tests
       working-directory: ./build
     - name: tests
       run: ./tests
       working-directory: ./build
+      if: ${{ matrix.os == "ubuntu-latest" }}
+    - name: tests
+      run: .\Debug\tests.exe
+      working-directory: ./build
+      if: ${{ matrix.os == "windows-latest" }}
     - name: install lcov
       run: ".github/workflows/install_latest_lcov.sh"
       if: ${{ matrix.os == "ubuntu-latest" }}
