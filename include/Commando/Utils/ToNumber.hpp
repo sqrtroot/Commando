@@ -25,7 +25,7 @@ namespace Util {
 
     template<typename T, bool FLOAT_TYPE, bool UNSIGNED_TYPE>
     struct ToNumber {
-      static T convert(nonstd::string_view input) { return nonstd::nullopt; };
+      static T convert(nonstd::string_view /*unused*/) { return nonstd::nullopt; };
     };
 
     template<typename T, bool UNSIGNED_TYPE>
