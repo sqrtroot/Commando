@@ -17,9 +17,19 @@ if(COVERAGE)
     set(CMAKE_BUILD_TYPE Debug)
     add_compile_options("-g -O0 -fprofile-arcs -ftest-coverage")
     set(CMAKE_CXX_OUTPUT_EXTENSION_REPLACE 1)
-  endif()
+  endif() 
+ endif()
+
+ if (WIN32)
+  set(CP COPY)
+else()
+  set(CP cp)
 endif()
 
+file(MAKE_DIRECTORY "${CMAKE_CURRENT_LIST_DIR}/include/nonstd")
+file(COPY "${CMAKE_CURRENT_LIST_DIR}/external/span-lite/include/nonstd/span.hpp" DESTINATION "${CMAKE_CURRENT_LIST_DIR}/include/nonstd/span.hpp")
+file(COPY "${CMAKE_CURRENT_LIST_DIR}/external/string-view-lite/include/nonstd/string_view.hpp" DESTINATION "${CMAKE_CURRENT_LIST_DIR}/include/nonstd/string_view.hpp")
+file(COPY "${CMAKE_CURRENT_LIST_DIR}/external/optional-lite/include/nonstd/optional.hpp" DESTINATION "${CMAKE_CURRENT_LIST_DIR}/include/nonstd/optional.hpp")
 
 add_library(Commando
         include/Commando/ArgSpan.h
@@ -28,6 +38,9 @@ add_library(Commando
         include/Commando/Commando.h
         include/Commando/CommandStatus.h
         include/Commando/Utils/ToNumber.hpp
+        include/nonstd/span.hpp
+        include/nonstd/string_view.hpp
+        include/nonstd/optional.hpp
         src/CommandHandler.cpp)
 
 target_include_directories(Commando PUBLIC "include")

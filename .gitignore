@@ -1,3 +1,4 @@
+include/nonstd
 .idea
 .clangd
 build
