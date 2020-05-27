@@ -47,7 +47,7 @@ public:
       return CommandStatus::NoCommand;
     }
 
-    Command *const *command = find_command(args[0]);
+    const auto command = find_command(args[0]);
     if(command == commands.end()) {
       return CommandStatus::CommandNotFound;
     }

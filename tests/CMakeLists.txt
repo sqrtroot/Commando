@@ -7,7 +7,7 @@ add_executable(tests
 target_include_directories(tests PUBLIC ${CMAKE_CURRENT_LIST_DIR}/../external/Catch2/single_include ${CMAKE_CURRENT_LIST_DIR}/include)
 target_link_libraries(tests Commando)
 
-if(COVERAGE)
+if(COVERAGE AND NOT MSVC)
 
   add_custom_command(OUTPUT coverage.info
     COMMAND lcov --directory ${CMAKE_BINARY_DIR} --zerocounters

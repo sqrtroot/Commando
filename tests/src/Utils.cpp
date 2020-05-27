@@ -4,11 +4,30 @@
 #include <nonstd/optional.hpp>
 #include <sstream>
 
+// MSVC Doesn't accept chars/unsigned chars as random type,
+// so we need to check for msvc and generate larger values
+// that we then truncate to the smaller type
+template<typename T>
+struct MinRandomType {
+  using type = T;
+};
+#ifdef _WIN32
+template<>
+struct MinRandomType<char> {
+  using type = short;
+};
+template<>
+struct MinRandomType<unsigned char> {
+  using type = unsigned short;
+};
+#endif
+
 #define GIVEN_NUM_TYPE(T, value_comparison)                                             \
   GIVEN("type " #T) {                                                                   \
-    using limits = std::numeric_limits<T>;                                              \
+    using randomT = MinRandomType<T>::type;                                             \
+    using limits  = std::numeric_limits<randomT>;                                       \
     WHEN("A correct number is decoded") {                                               \
-      auto value = GENERATE(                                                            \
+      auto value = (T) GENERATE(                                                        \
         limits::min(), limits::max(), take(100, random(limits::min(), limits::max()))); \
       std::stringstream ss;                                                             \
       ss << +value;                                                                     \
