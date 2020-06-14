@@ -50,4 +50,4 @@ target_include_directories(Commando PUBLIC "external/string-view-lite/include")
 target_include_directories(Commando PUBLIC "external/optional-lite/include")
 
 include(tests/CMakeLists.txt)
-
+include(docs/CMakeLists.txt)

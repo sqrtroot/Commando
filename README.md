@@ -11,7 +11,7 @@ With commando you create commands by making them a subclass of `Commando::Comman
 ## Command
 ### Simple command
 Let's start by creating a simple hello world command for the arduino
-```c++
+```cpp
 #include <Commando/Command.hpp>
 
 struct HelloWorld : public Commando::Command {
@@ -26,7 +26,7 @@ struct HelloWorld : public Commando::Command {
 Calling the constructor of the superclass Command tells the program how the command should be named (and thus how it should be used when called from the commandline), a simple usage for the command which comes in handy if you use some arguments, and a help text.
 ### Command with arguments
 Now let's look at using some arguments. Arguments are passed as `ArgSpan`. This is an alias for a `span<string_view>`. A `span` is like a refference for arrays and can be used as such. A `string_view` is like better implementation of `const char *`'s (they don't need a null terminator). So let's look at how we can implement an echo commando.
-```c++
+```cpp
 #include <Commando/Command.hpp>
 struct Echo : public Command {
   Echo(): Command("echo", "echo [arguments]", "print input values to serial output"){};
@@ -39,7 +39,7 @@ struct Echo : public Command {
 };
 ```
  We can see that working with the `ArgSpan` is super simple, we can use it in auto for loops just like arrays/vectors or we could use it with an index like this:
- ```c++
+ ```cpp
  for(int i = 0; i < args.size(); i++){
      arg[i]; // Do something with the argument
  }
@@ -49,7 +49,7 @@ struct Echo : public Command {
 
 ## Command Handler
 The command handler is the part that receives the input, splits it into arguments and calls the correct command. Creating a handler is really easy in this example we'll use the previously created `HelloWorld` and `Echo` commands.
-```c++
+```cpp
 #include <Commando/CommandHandler.hpp>
 
 EchoCommand       ECHO;
@@ -57,7 +57,7 @@ HelloWorldCommand HELLOWORLD;
 auto              HANDLER = Commando::make_commandhandler(&ECHO, &HELLOWORLD);
 ```
  now if we want to call a command we simply call the handler's `handle_input` function like this:
- ```c++
+ ```cpp
  HANDLER.handle_input("echo hello world");
  ```
 ## Shell
@@ -65,7 +65,7 @@ The shell class is the easiest way to use commando's.
 You give it three function's: a way to check if there's a character to read, a way to read characters and a way to write string_views.
 In this example I'll show how to write this yourself.
 But for Arduino there is already a standard shell defined that you can use as such (with the handler from the previous example):
-```c++
+```cpp
 #include <Commando/StandardShell/Arduino.hpp>
 
 ArduinoShell SHELL(HANDLER);
@@ -77,7 +77,7 @@ void loop(){
 ### How to write it yourself
 So as said before you need to provide three functions. These functions can be written as lambdas.
 Let's look at a shell that uses ```std::cin``` to read characters
-```c++
+```cpp
 #include <Commando/Commando.h>
 #include <iostream>
 

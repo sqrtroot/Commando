@@ -1,0 +1,23 @@
+PROJECT_NAME           = "Commando"
+FULL_PATH_NAMES        = NO
+BUILTIN_STL_SUPPORT    = YES
+SEARCHENGINE           = YES
+EXTRACT_ALL            = YES
+SOURCE_BROWSER         = YES
+GENERATE_HTMLHELP      = YES
+GENERATE_TREEVIEW      = YES
+DISABLE_INDEX          = NO
+PROJECT_LOGO           = @CMAKE_CURRENT_LIST_DIR@/../Commando.svg
+OUTPUT_DIRECTORY       = @CMAKE_CURRENT_BINARY_DIR@/docs/
+INPUT                  = @CMAKE_CURRENT_LIST_DIR@/../src/ @CMAKE_CURRENT_LIST_DIR@/../include @CMAKE_CURRENT_LIST_DIR@ @CMAKE_CURRENT_LIST_DIR@/../README.md
+USE_MDFILE_AS_MAINPAGE = README.md
+EXCLUDE_PATTERNS       = */nonstd/* */Standard*
+RECURSIVE              = YES
+GENERATE_XML           = YES
+GENERATE_HTML          = YES
+GENERATE_LATEX         = NO
+HTML_HEADER            = @CMAKE_CURRENT_LIST_DIR@/../external/zen-doxygen-theme/header.html
+HTML_FOOTER            = @CMAKE_CURRENT_LIST_DIR@/../external/zen-doxygen-theme/footer.html
+HTML_STYLESHEET        = @CMAKE_CURRENT_LIST_DIR@/../external/zen-doxygen-theme/stylesheet.css
+
+

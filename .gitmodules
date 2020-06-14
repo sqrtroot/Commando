@@ -10,3 +10,6 @@
 [submodule "external/Catch2"]
 	path = external/Catch2
 	url = https://github.com/catchorg/Catch2
+[submodule "external/zen-doxygen-theme"]
+	path = external/zen-doxygen-theme
+	url = https://github.com/ZenCPP/zen-doxygen-theme.git
