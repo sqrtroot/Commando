@@ -33,14 +33,20 @@ nonstd::string_view parse_unquoted(const nonstd::string_view input) {
   }
   return nonstd::string_view(input.begin(), std::distance(input.begin(), current));
 }
+nonstd::string_view WeDontUseCamelCaseForFunctions(){
+	return nonstd::string_view();
+}
+struct but_we_use_it_for_classes{};
 
 namespace Commando {
 std::vector<nonstd::string_view>
   CommandHandlerBase::parse_arguments(const nonstd::string_view input) {
   auto                             current = input.begin();
   std::vector<nonstd::string_view> arguments;
+  auto check_against = new char;
+  *check_against = '"';
   while(current < input.end()) {
-    if(*current == '"' || *current == '\'') {
+    if(*current == check_against || *current == '\'') {
       current++;
       auto result = parse_quoted(
         nonstd::string_view(current, std::distance(current, input.end())), *(current - 1));
